@@ -1,15 +1,22 @@
 package com.projeto_systextl.demo.cliente;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.projeto_systextl.demo.endereco.Endereco;
 import com.projeto_systextl.demo.endereco.EnderecoRepository;
 
 import jakarta.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
@@ -54,7 +61,7 @@ public class ClienteController {
 
     @PutMapping("/{idCliente}")
     public ResponseEntity<Cliente> atualizarCliente(
-            @PathVariable int idCliente,
+            @PathVariable Integer idCliente, // Alterado de int para Integer
             @RequestParam(value = "nomeEmpresa", required = false) String nomeEmpresa,
             @RequestParam(value = "cnpj", required = false) String cnpj,
             @RequestParam(value = "telefone", required = false) String telefone,
@@ -81,7 +88,7 @@ public class ClienteController {
 
     @PatchMapping("/{idCliente}")
     public ResponseEntity<Cliente> atualizarParcialCliente(
-            @PathVariable int idCliente,
+            @PathVariable Integer idCliente, // Alterado de int para Integer
             @RequestParam(value = "nomeEmpresa", required = false) String nomeEmpresa,
             @RequestParam(value = "cnpj", required = false) String cnpj,
             @RequestParam(value = "telefone", required = false) String telefone,

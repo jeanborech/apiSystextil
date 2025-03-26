@@ -13,7 +13,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_seq_generator")
     @SequenceGenerator(name = "cliente_seq_generator", sequenceName = "cliente_seq", allocationSize = 1)
     @Column(name = "ID_CLIENTE")
-    private int idCliente;
+    private Integer idCliente; // Alterado de int para Integer
 
     @Column(name = "NOME_EMPRESA")
     private String nomeEmpresa;
@@ -72,11 +72,11 @@ public class Cliente {
     }
 
     // Getters e Setters
-    public int getIdCliente() {
+    public Integer getIdCliente() { // Alterado de int para Integer
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) { // Alterado de int para Integer
         this.idCliente = idCliente;
     }
 
@@ -157,7 +157,7 @@ public class Cliente {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return idCliente == cliente.idCliente;
+        return Objects.equals(idCliente, cliente.idCliente); // Ajustado para usar Objects.equals
     }
 
     @Override

@@ -1,14 +1,21 @@
 package com.projeto_systextl.demo.cliente;
 
-import com.projeto_systextl.demo.endereco.Endereco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.projeto_systextl.demo.endereco.Endereco;
 
 @Service
 public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    // Método findById (adicionado para ser usado pelo PedidoVendaService)
+    public Cliente findById(Integer id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente com ID " + id + " não encontrado"));
+    }
 
     public Cliente criarCliente(String nomeEmpresa, String cnpj, String telefone, String email, 
                                 String regimeTributario, Integer status, Endereco endereco) {
@@ -29,15 +36,15 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarCliente(int idCliente, String nomeEmpresa, String cnpj, String telefone, String email, 
-                                    String regimeTributario, Integer status, Endereco endereco) {
+    public Cliente atualizarCliente(Integer idCliente, String nomeEmpresa, String cnpj, String telefone, String email, 
+                                    String regimeTributario, Integer status, Endereco endereco) { // Alterado de int para Integer
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
 
         if (nomeEmpresa != null && !nomeEmpresa.trim().isEmpty()) cliente.setNomeEmpresa(nomeEmpresa);
         if (cnpj != null && !cnpj.trim().isEmpty()) {
             Cliente existente = clienteRepository.findByCnpj(cnpj);
-            if (existente != null && existente.getIdCliente() != idCliente) {
+            if (existente != null && !existente.getIdCliente().equals(idCliente)) { // Ajustado para usar equals
                 throw new IllegalArgumentException("CNPJ já cadastrado para outro cliente.");
             }
             cliente.setCnpj(cnpj);
@@ -51,15 +58,15 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarParcialCliente(int idCliente, String nomeEmpresa, String cnpj, String telefone, 
-                                           String email, String regimeTributario, Integer status, Endereco endereco) {
+    public Cliente atualizarParcialCliente(Integer idCliente, String nomeEmpresa, String cnpj, String telefone, 
+                                           String email, String regimeTributario, Integer status, Endereco endereco) { // Alterado de int para Integer
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
 
         if (nomeEmpresa != null) cliente.setNomeEmpresa(nomeEmpresa);
         if (cnpj != null) {
             Cliente existente = clienteRepository.findByCnpj(cnpj);
-            if (existente != null && existente.getIdCliente() != idCliente) {
+            if (existente != null && !existente.getIdCliente().equals(idCliente)) { // Ajustado para usar equals
                 throw new IllegalArgumentException("CNPJ já cadastrado para outro cliente.");
             }
             cliente.setCnpj(cnpj);
