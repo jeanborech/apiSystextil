@@ -35,22 +35,41 @@ public class UsuarioService {
 
         return repository.save(usuario);
     }
+    
+    //put
+    public Usuario atualizarUsuario(int id, String usuario, String senha, String email) throws Exception {
+        Usuario usuarioExistente = findById(id);
 
-    //patch (Atualizar parcial)
-	public Usuario atualizarParcialUsuario(int id, String usuario, String senha, String email) {
-		Usuario usuarioExistente = findById(id);
+        if (usuario == null || usuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("Usuario não pode ser nulo ou vazio");
+        }
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new IllegalArgumentException("Senha não pode ser nula ou vazia");
+        }
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
+        }
 
-        if (usuario != null) {
-        	usuarioExistente.setUsuario(usuario);
-        }
-        if (senha != null) {
-        	usuarioExistente.setSenha(senha);
-        }
-        if (email != null) {
-        	usuarioExistente.setEmail(email);
-        }
-     
-        //usuarioExistente.setDataAtualizacao();
+        usuarioExistente.setUsuario(usuario);
+        usuarioExistente.setSenha(senha);
+        usuarioExistente.setEmail(email);
+
         return repository.save(usuarioExistente);
     }
+
+    //patch (Atualizar parcial)
+	public Usuario atualizarParcialUsuario(int id, String usuario, String senha, String email) throws Exception {
+		Usuario usuarioExistente = findById(id);
+
+		if (usuario != null) {
+			usuarioExistente.setUsuario(usuario);
+        }
+		if (senha != null) {
+			usuarioExistente.setSenha(senha);
+        }
+		if (email != null) {
+			usuarioExistente.setEmail(email);
+        }
+        return repository.save(usuarioExistente);
+	}
 }
